@@ -14,3 +14,15 @@ sql_url = f"sqlite:///{sql_filename}"
 
 connection_args = {"check_same_thread":False}
 engine = create_engine(sql_url,connect_args=connection_args)
+
+def createdb_and_tables():
+    SQLModel.metadata.create_all(engine)
+
+"""
+Next we need to create Session.
+Session is what hold the object in memeory and communicates with the db
+through the engine    
+
+To ensure that we use single Session per Request, we'll have to use yield.
+Then we create an Annotated dependency SessionDep to simplify the rest of the code that will use this dependency. 
+"""
